@@ -29,20 +29,27 @@ export class _GtkWidgetHost<
   constructor(props: PublicProps) {
     console.log({ props });
     const instance = new this.gtkWidgetClass();
+    this.instance = instance;
+    this.updateProps(props, Object.keys(props) as Array<keyof PublicProps>, []);
+  }
 
+  updateProps(
+    props: PublicProps,
+    set: Array<keyof PublicProps>,
+    unset: Array<keyof PublicProps>
+  ) {
     const sanitizedProps = this.sanitizeProps(props);
 
     for (const [key, value] of Object.entries(sanitizedProps)) {
       if (key.startsWith("on")) {
         const signalName = key.replace("on", "").toLowerCase();
         console.log("connecting signalName %s", signalName);
-        instance.connect(signalName, value);
+        this.instance.connect(signalName, value);
       } else {
         // @ts-ignore: Unfortunately this is impossible to typecheck
-        instance[key] = value;
+        this.instance[key] = value;
       }
     }
-    this.instance = instance;
   }
 
   appendChild(child: _GtkWidgetHost) {

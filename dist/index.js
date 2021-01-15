@@ -56,89 +56,76 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // listStore.set_column_types([
-//   GObject.TYPE_STRING,
-//   GObject.TYPE_STRING,
-//   GObject.TYPE_STRING,
-//   GObject.TYPE_STRING,
-// ]);
-//
-//   <GtkTreeView
-//     expand
-//     listStore={listStore}
-//     columns={[
-//       { title: "First Name", resizable: true, renderer: Gtk.CellRendererText },
-//       { title: "Last Name", resizable: true, renderer: Gtk.CellRendererText },
-//       {
-//         title: "Phone Nummber",
-//         resizable: true,
-//         renderer: new Gtk.CellRendererText({ weight: Pango.Weight.BOLD }),
-//       },
-//     ]}
-//   />
+
+const data = [{
+  name: "Jurg",
+  surname: "Billeter",
+  phone: "555-0123",
+  description: "A friendly person."
+}, {
+  name: "Johannes",
+  surname: "Schmid",
+  phone: "555-1234",
+  description: "Easy phone number to remember."
+}, {
+  name: "Julita",
+  surname: "Inca",
+  phone: "555-2345",
+  description: "Another friendly person."
+}, {
+  name: "Javier",
+  surname: "Jardon",
+  phone: "555-3456",
+  description: "Bring fish for his penguins."
+}, {
+  name: "Jason",
+  surname: "Clinton",
+  phone: "555-4567",
+  description: "His cake's not a lie."
+}, {
+  name: "Random J.",
+  surname: "Hacker",
+  phone: "555-5678",
+  description: "Very random!"
+}];
+const columns = [{
+  type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
+  title: "Fist Name",
+  cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
+  attribute: "name"
+}, {
+  type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
+  title: "Last Name",
+  cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
+  attribute: "surname"
+}, {
+  type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
+  title: "Phone Number",
+  cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
+  attribute: "phone"
+}];
 
 const App = () => {
-  const data = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
-    return [{
-      name: "Jurg",
-      surname: "Billeter",
-      phone: "555-0123",
-      description: "A friendly person."
-    }, {
-      name: "Johannes",
-      surname: "Schmid",
-      phone: "555-1234",
-      description: "Easy phone number to remember."
-    }, {
-      name: "Julita",
-      surname: "Inca",
-      phone: "555-2345",
-      description: "Another friendly person."
-    }, {
-      name: "Javier",
-      surname: "Jardon",
-      phone: "555-3456",
-      description: "Bring fish for his penguins."
-    }, {
-      name: "Jason",
-      surname: "Clinton",
-      phone: "555-4567",
-      description: "His cake's not a lie."
-    }, {
-      name: "Random J.",
-      surname: "Hacker",
-      phone: "555-5678",
-      description: "Very random!"
-    }];
+  const [index, setIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const handleSelectionChange = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(sel => {
+    const [isSelected, model, iter] = sel.get_selected();
+
+    if (isSelected && model && iter) {
+      const [index] = model.get_path(iter).get_indices();
+      setIndex(index);
+    }
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
     spacing: 8,
     orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.VERTICAL),
     margin: 8
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkLabel, {
-    label: "Derek Stavis"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkButton, {
-    label: "You bet",
-    onClicked: () => console.log("BINGO")
+    label: data[index].name
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkTreeView, {
     expand: true,
     data: data,
-    columns: [{
-      type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
-      title: "Fist Name",
-      cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
-      attribute: "name"
-    }, {
-      type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
-      title: "Last Name",
-      cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
-      attribute: "surname"
-    }, {
-      type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
-      title: "Phone Number",
-      cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
-      attribute: "phone"
-    }]
+    columns: columns,
+    onSelectionChanged: handleSelectionChange
   }));
 };
 
@@ -354,6 +341,7 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidge
     const {
       columns: _,
       data: __,
+      onSelectionChanged: ___,
       ...rest
     } = props;
     return rest;
@@ -384,9 +372,27 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidge
       } = item;
       const gtkColumn = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().TreeViewColumn)(props);
       gtkColumn.pack_start(cellRenderer, true);
-      gtkColumn.add_attribute(cellRenderer, attribute, i);
-      this.instance.append_column(gtkColumn);
+      gtkColumn.add_attribute(cellRenderer, "text", i);
+      this.instance.insert_column(gtkColumn, i);
       i++;
+    }
+  }
+
+  updateProps(props, set, unset) {
+    super.updateProps(props, set, unset);
+
+    if (set.includes("onSelectionChanged")) {
+      if (this.selectionChangeSignalId) {
+        this.instance.get_selection().disconnect(this.selectionChangeSignalId);
+      }
+
+      this.selectionChangeSignalId = this.instance.get_selection().connect("changed", props.onSelectionChanged);
+    }
+
+    if (unset.includes("onSelectionChanged")) {
+      if (this.selectionChangeSignalId) {
+        this.instance.get_selection().disconnect(this.selectionChangeSignalId);
+      }
     }
   }
 
@@ -431,20 +437,23 @@ class _GtkWidgetHost {
       props
     });
     const instance = new this.gtkWidgetClass();
+    this.instance = instance;
+    this.updateProps(props, Object.keys(props), []);
+  }
+
+  updateProps(props, set, unset) {
     const sanitizedProps = this.sanitizeProps(props);
 
     for (const [key, value] of Object.entries(sanitizedProps)) {
       if (key.startsWith("on")) {
         const signalName = key.replace("on", "").toLowerCase();
         console.log("connecting signalName %s", signalName);
-        instance.connect(signalName, value);
+        this.instance.connect(signalName, value);
       } else {
         // @ts-ignore: Unfortunately this is impossible to typecheck
-        instance[key] = value;
+        this.instance[key] = value;
       }
     }
-
-    this.instance = instance;
   }
 
   appendChild(child) {
@@ -765,15 +774,29 @@ const renderer = react_reconciler__WEBPACK_IMPORTED_MODULE_0___default()({
 
     const newKeys = Object.keys(newNoChildren);
     const oldKeys = Object.keys(oldNoChildren);
-    const unset = oldKeys.reduce((memo, key) => newKeys.indexOf(key) < 0 ? [...memo, key] : memo, []);
-    const set = newKeys.reduce((memo, key) => oldKeys.indexOf(key) < 0 ? [...memo, key] : memo, []);
-    console.log("prepareUpdate", JSON.stringify(oldNoChildren), JSON.stringify(newNoChildren), !propsAreEqual);
+    const unset = oldKeys.reduce((memo, oldKey) => newKeys.includes(oldKey) ? memo : [...memo, oldKey], []);
+    const set = newKeys.reduce((memo, newKey) => oldNoChildren[newKey] !== newNoChildren[newKey] ? [...memo, newKey] : memo, []);
+    console.log("prepareUpdate", JSON.stringify({
+      oldNoChildren: Object.keys(oldNoChildren),
+      newNoChildren: Object.keys(newNoChildren),
+      set,
+      unset
+    }, null, 2), propsAreEqual);
     return {
       unset,
       set
     };
   },
 
+  commitUpdate: (instance, updatePayload, type, oldProps, newProps, internalInstanceHandle) => {
+    console.log("commitUpdate");
+
+    for (const key of updatePayload.unset) {
+      instance.instance[key] = null;
+    }
+
+    instance.updateProps(newProps, updatePayload.set, updatePayload.unset);
+  },
   commitMount: (instance, type, newProps, internalInstanceHandle) => {
     console.log("commitMount"); // noop
   }

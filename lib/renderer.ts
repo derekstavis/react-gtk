@@ -6,6 +6,7 @@ import GLib from "Gjs/GLib-2.0";
 
 import { GtkWidgets } from "./components/types";
 import { _GtkHosts } from "./components";
+import { _GtkWidgetHost } from "./components/GtkWidget";
 
 const renderer = Reconciler({
   supportsMutation: true,
@@ -88,23 +89,50 @@ const renderer = Reconciler({
     const oldKeys = Object.keys(oldNoChildren);
 
     const unset = oldKeys.reduce(
-      (memo, key) => (newKeys.indexOf(key) < 0 ? [...memo, key] : memo),
+      (memo, oldKey) => (newKeys.includes(oldKey) ? memo : [...memo, oldKey]),
       [] as string[]
     );
 
     const set = newKeys.reduce(
-      (memo, key) => (oldKeys.indexOf(key) < 0 ? [...memo, key] : memo),
+      (memo, newKey) =>
+        oldNoChildren[newKey] !== newNoChildren[newKey]
+          ? [...memo, newKey]
+          : memo,
       [] as string[]
     );
 
     console.log(
       "prepareUpdate",
-      JSON.stringify(oldNoChildren),
-      JSON.stringify(newNoChildren),
-      !propsAreEqual
+      JSON.stringify(
+        {
+          oldNoChildren: Object.keys(oldNoChildren),
+          newNoChildren: Object.keys(newNoChildren),
+          set,
+          unset,
+        },
+        null,
+        2
+      ),
+      propsAreEqual
     );
 
     return { unset, set };
+  },
+  commitUpdate: (
+    instance: _GtkWidgetHost,
+    updatePayload,
+    type,
+    oldProps,
+    newProps,
+    internalInstanceHandle
+  ) => {
+    console.log("commitUpdate");
+
+    for (const key of updatePayload.unset) {
+      instance.instance[key] = null;
+    }
+
+    instance.updateProps(newProps, updatePayload.set, updatePayload.unset);
   },
   commitMount: (instance, type, newProps, internalInstanceHandle) => {
     console.log("commitMount");
