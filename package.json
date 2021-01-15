@@ -1,0 +1,35 @@
+{
+  "name": "react-gtk",
+  "version": "0.0.1",
+  "description": "Use React with GTK to write GJS applications",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "types:generate": "ts-for-gir generate --inheritance 'Gtk*' -e gjs -g /usr/local/share/gir-1.0 -o node_modules",
+    "postinstall": "yarn types:generate",
+    "prestart": "webpack",
+    "start": "cgjs dist/index.js"
+  },
+  "dependencies": {
+    "@cgjs/timers": "^0.0.2",
+    "cgjs": "^0.1.32",
+    "fast-equals": "^2.0.0",
+    "react": "^17.0.1",
+    "react-reconciler": "^0.26.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-react": "^7.12.10",
+    "@babel/preset-typescript": "^7.12.7",
+    "@types/react-reconciler": "^0.18.0",
+    "babel-loader": "^8.2.2",
+    "prettier": "^2.2.1",
+    "text-loader": "^0.0.1",
+    "ts-for-gir": "realh/ts-for-gjs#da2af5d",
+    "typescript": "^4.1.3",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1"
+  }
+}
