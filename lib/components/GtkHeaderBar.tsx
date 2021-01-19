@@ -15,4 +15,3 @@ export class _GtkHeaderBarHost extends _GtkWidgetHost<GtkHeaderBarProps> {
     return Gtk.HeaderBar;
   }
 }
-

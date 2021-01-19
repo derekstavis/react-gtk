@@ -5,7 +5,7 @@ import Gtk from "Gjs/Gtk-3.0";
 import { _GtkWidgetHost } from "./GtkWidget";
 
 export interface GtkContainerProps extends Gtk.Container_ConstructProps {
-  children?: JSX.Element[];
+  children?: React.ReactNode;
 }
 
 export default function GtkContainer<Props = {}>(
@@ -15,9 +15,9 @@ export default function GtkContainer<Props = {}>(
 }
 
 export class _GtkContainerHost<
-  Props = {},
+  PublicProps = {},
   GtkType extends Gtk.Container = Gtk.Container
-> extends _GtkWidgetHost<GtkContainerProps & Props, GtkType> {
+> extends _GtkWidgetHost<GtkContainerProps & PublicProps, GtkType> {
   get gtkWidgetClass(): { new (...args: any): GtkType } {
     // @ts-ignore: Unfortunately this is impossible to typecheck
     return Gtk.Container;

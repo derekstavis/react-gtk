@@ -73,6 +73,7 @@ declare global {
       "gtk-glarea": Gtk.GLArea_ConstructProps;
       "gtk-sizegroup": Gtk.SizeGroup_ConstructProps;
       "gtk-tooltip": Gtk.Tooltip_ConstructProps;
+      "gtk-window": Gtk.Window_ConstructProps;
     }
   }
 }

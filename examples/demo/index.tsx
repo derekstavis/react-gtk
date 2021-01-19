@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { render, GtkBox, GtkLabel } from "../../lib";
 
 import GObject from "Gjs/GObject-2.0";
 import Gtk from "Gjs/Gtk-3.0";
 
-import { GtkButton, GtkTreeView } from "../../lib/components";
+import { GtkTreeView, GtkWindow } from "../../lib/components";
+import { GtkTreeViewColumn } from "../../lib/components/GtkTreeView";
 
 const data = [
   {
@@ -46,75 +47,83 @@ const data = [
   },
 ];
 
-const columns = [
+const columns: Array<GtkTreeViewColumn<keyof typeof data[0]>> = [
   {
     type: GObject.TYPE_STRING,
     title: "Fist Name",
     cellRenderer: new Gtk.CellRendererText({}),
+    expand: true,
+    resizable: true,
     attribute: "name" as "name",
   },
   {
     type: GObject.TYPE_STRING,
     title: "Last Name",
     cellRenderer: new Gtk.CellRendererText({}),
+    expand: true,
+    resizable: true,
     attribute: "surname" as "surname",
   },
   {
     type: GObject.TYPE_STRING,
     title: "Phone Number",
     cellRenderer: new Gtk.CellRendererText({}),
+    expand: true,
+    resizable: true,
     attribute: "phone" as "phone",
   },
 ];
 
 const App = () => {
-  const [index, setIndex] = useState(0 as number);
+  const [cursor, setIndex] = useState([2] as number[]);
 
   const handleSelectionChange = useCallback((sel: Gtk.TreeSelection) => {
     const [isSelected, model, iter] = sel.get_selected();
 
     if (isSelected && model && iter) {
-      const [index] = model.get_path(iter).get_indices();
-      setIndex(index);
+      const cur = model.get_path(iter).get_indices();
+      setIndex(cur);
     }
   }, []);
 
   return (
-    <GtkBox spacing={8} orientation={Gtk.Orientation.VERTICAL} margin={8}>
-      <GtkLabel label={data[index].name} />
-      <GtkTreeView
-        expand
-        data={data}
-        columns={columns}
-        onSelectionChanged={handleSelectionChange}
-      />
-    </GtkBox>
+    <>
+      <GtkWindow width_request={550} height_request={450}>
+        <GtkBox spacing={8} orientation={Gtk.Orientation.VERTICAL} margin={8}>
+          <GtkLabel label={data[cursor[0]].name} />
+          <GtkTreeView
+            expand
+            data={data}
+            columns={columns}
+            onSelectionChanged={handleSelectionChange}
+          />
+        </GtkBox>
+      </GtkWindow>
+      <GtkWindow width_request={550} height_request={450}>
+        <GtkBox spacing={8} orientation={Gtk.Orientation.VERTICAL} margin={8}>
+          <GtkLabel label={data[cursor[0]].name} />
+          <GtkTreeView
+            expand
+            data={data}
+            columns={columns}
+            onSelectionChanged={handleSelectionChange}
+            cursor={cursor}
+          />
+        </GtkBox>
+      </GtkWindow>
+    </>
   );
 };
 
 Gtk.init(null);
 
-const window = new Gtk.Window({
-  width_request: 550,
-  height_request: 450,
+const app = new Gtk.Application();
+
+app.connect("startup", () => {
+  render(<App />, app);
+  console.log("rendered");
 });
 
-window.set_titlebar(
-  new Gtk.HeaderBar({
-    title: "Milestones",
-    show_close_button: true,
-  })
-);
-
-window.connect("delete-event", () => {
-  Gtk.main_quit();
-  return true;
-});
-
-render(<App />, window);
-
-console.log("rendered");
-
-window.show_all();
+app.run(ARGV);
 
 Gtk.main();

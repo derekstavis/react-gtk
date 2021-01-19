@@ -17,6 +17,7 @@ export interface GtkTreeViewProps<Data extends { [k: string]: any }>
   columns: GtkTreeViewColumn<Exclude<keyof Data, number | symbol>>[];
   data: Data[];
   onSelectionChanged?: (selection: Gtk.TreeSelection) => void;
+  cursor?: number[];
 }
 
 export default function GtkTreeView<Data extends Record<string, any>>(
@@ -41,7 +42,7 @@ export class _GtkTreeViewHost<
 
   constructor(props: GtkTreeViewProps<Data>) {
     super(props);
-    const { columns, data } = props;
+    const { columns, data, cursor } = props;
 
     const store = new Gtk.ListStore();
     store.set_column_types(columns.map((col) => col.type));
@@ -87,6 +88,12 @@ export class _GtkTreeViewHost<
       if (this.selectionChangeSignalId) {
         this.instance.get_selection().disconnect(this.selectionChangeSignalId);
       }
+    }
+
+    if (set.includes("cursor") && props.cursor) {
+      this.instance
+        .get_selection()
+        .select_path(Gtk.TreePath.new_from_indices(props.cursor));
     }
   }
 }

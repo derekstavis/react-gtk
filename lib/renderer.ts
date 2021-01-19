@@ -50,23 +50,24 @@ const renderer = Reconciler({
     hostContext
   ) => {
     console.log("finalizeInitialChildren");
+    parentInstance.instance.show_all()
     return true;
   },
   appendChild: (parentInstance, child) => {
     console.log("appendChild");
     parentInstance.appendChild(child);
   },
-  appendChildToContainer: (container, child) => {
-    console.log("appendChildToContainer");
-    container.add(child.instance);
-  },
-  removeChildFromContainer: (container, child) => {
-    console.log("removeChildFromContainer");
-    container.remove(child.instance);
-  },
   appendInitialChild: (parentInstance, child) => {
     console.log("appendInitialChild");
     parentInstance.appendChild(child);
+  },
+  appendChildToContainer: (container, child) => {
+    console.log("appendChildToContainer");
+    container.add_window(child.instance);
+  },
+  removeChildFromContainer: (container, child) => {
+    console.log("removeChildFromContainer");
+    container.remove_window(child.instance);
   },
   prepareUpdate(
     instance,
@@ -140,9 +141,9 @@ const renderer = Reconciler({
   },
 });
 
-const roots = new Map<Gtk.Window, FiberRoot>();
+const roots = new Map<Gtk.Application, FiberRoot>();
 
-export const render = (element: React.ReactNode, root: Gtk.Window) => {
+export const render = (element: React.ReactNode, root: Gtk.Application) => {
   let container = roots.get(root);
 
   if (!container) {

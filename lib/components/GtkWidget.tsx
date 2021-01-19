@@ -22,7 +22,9 @@ export class _GtkWidgetHost<
     return Gtk.Widget;
   }
 
-  sanitizeProps(props: PublicProps): Gtk.Widget_ConstructProps {
+  sanitizeProps(
+    props: PublicProps & { [key: string]: any }
+  ): Gtk.Widget_ConstructProps & { [key: string]: any } {
     return omitChildren(props);
   }
 
