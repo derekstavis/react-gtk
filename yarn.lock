@@ -188,6 +188,14 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.12.11.tgz#9ce3595bcd74bc5c466905e86c535b8b25011e79"
   integrity sha512-N3UxG+uuF4CMYoNj8AhnbAcJF0PiuJ9KHuy1lQmkYsxTer/MAH9UBNHsBoAX/4s6NvlDD047No8mYVGGzLL4hg==
 
+"@babel/plugin-proposal-class-properties@^7.12.1":
+  version "7.12.1"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.12.1.tgz#a082ff541f2a29a4821065b8add9346c0c16e5de"
+  integrity sha512-cKp3dlQsFsEs5CWKnN7BnSHOd0EOW8EKpEjkoz1pO2E5KzIDNV9Ros1b0CnmbVgAGXJubOYVBOGCT1OmJwOI7w==
+  dependencies:
+    "@babel/helper-create-class-features-plugin" "^7.12.1"
+    "@babel/helper-plugin-utils" "^7.10.4"
+
 "@babel/plugin-syntax-jsx@^7.12.1":
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.12.1.tgz#9d9d357cc818aa7ae7935917c1257f67677a0926"
@@ -272,6 +280,13 @@
     "@babel/helper-plugin-utils" "^7.10.4"
     "@babel/helper-validator-option" "^7.12.1"
     "@babel/plugin-transform-typescript" "^7.12.1"
+
+"@babel/runtime@^7.12.5":
+  version "7.12.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+  integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
 
 "@babel/template@^7.10.4", "@babel/template@^7.12.7":
   version "7.12.7"
@@ -2700,6 +2715,11 @@ rechoir@^0.7.0:
   integrity sha512-ADsDEH2bvbjltXEP+hTIAmeFekTFK0V2BTxMkok6qILyAJEXV0AFfoWcAq4yfll5VdIMd/RVXq0lR+wQi5ZU3Q==
   dependencies:
     resolve "^1.9.0"
+
+regenerator-runtime@^0.13.4:
+  version "0.13.7"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
+  integrity sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"

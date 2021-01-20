@@ -5,12 +5,14 @@ import { _GtkButtonHost } from "./GtkButton";
 import { _GtkBoxHost } from "./GtkBox";
 import { _GtkTreeViewHost } from "./GtkTreeView";
 import { _GtkWindowHost } from "./GtkWindow";
+import { _GtkEntryHost } from "./GtkEntry";
 
 export { default as GtkLabel } from "./GtkLabel";
 export { default as GtkButton } from "./GtkButton";
 export { default as GtkBox } from "./GtkBox";
 export { default as GtkTreeView } from "./GtkTreeView";
 export { default as GtkWindow } from "./GtkWindow";
+export { default as GtkEntry } from "./GtkEntry";
 
 export const _GtkHosts = {
   "gtk-label": _GtkLabelHost,
@@ -18,4 +20,5 @@ export const _GtkHosts = {
   "gtk-box": _GtkBoxHost,
   "gtk-treeview": _GtkTreeViewHost,
   "gtk-window": _GtkWindowHost,
+  "gtk-entry": _GtkEntryHost,
 };

@@ -15,6 +15,9 @@ export class _GtkWidgetHost<
   PublicProps = GtkWidgetProps,
   GtkType extends Gtk.Widget = Gtk.Widget
 > {
+  signalSource = new Map<string, number>();
+  signalCallback = new Map<string, (...args: any) => void>();
+
   public readonly instance: GtkType;
 
   get gtkWidgetClass(): { new (...args: any): GtkType } {
@@ -44,9 +47,39 @@ export class _GtkWidgetHost<
 
     for (const [key, value] of Object.entries(sanitizedProps)) {
       if (key.startsWith("on")) {
-        const signalName = key.replace("on", "").toLowerCase();
-        console.log("connecting signalName %s", signalName);
-        this.instance.connect(signalName, value);
+        // Convert camelCase to kebab-case
+        const signalName = key
+          .slice(2)
+          .replace(/([a-z][A-Z])/g, (group) => `${group[0]}-${group[1]}`)
+          .toLowerCase();
+
+        if (set.includes(key as keyof PublicProps)) {
+          // cache the handler so we don't keep reconnecting
+          if (!this.signalCallback.has(signalName)) {
+            const handler = (...args: any[]) => {
+              const callback = this.signalCallback.get(signalName);
+              if (callback) callback(...args);
+            };
+            const sourceId = this.instance.connect(signalName, handler);
+            console.log(
+              "connecting signalName: %s, sourceId: %d",
+              signalName,
+              sourceId
+            );
+            this.signalSource.set(signalName, sourceId);
+          }
+          this.signalCallback.set(signalName, value);
+        }
+        if (unset.includes(key as keyof PublicProps)) {
+          const sourceId = this.signalSource.get(signalName);
+          console.log(
+            "disconnecting signalName: %s, sourceId: %d",
+            signalName,
+            sourceId
+          );
+          if (sourceId) this.instance.disconnect(sourceId);
+          this.signalCallback.delete(signalName);
+        }
       } else {
         // @ts-ignore: Unfortunately this is impossible to typecheck
         this.instance[key] = value;

@@ -53,6 +53,10 @@ const renderer = Reconciler({
     parentInstance.instance.show_all()
     return true;
   },
+  insertInContainerBefore: (container, child, beforeChild) => {
+    console.log("insertInContainerBefore");
+    container.add_window(child.instance);
+  },
   appendChild: (parentInstance, child) => {
     console.log("appendChild");
     parentInstance.appendChild(child);

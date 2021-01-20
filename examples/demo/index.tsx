@@ -1,14 +1,24 @@
-import React, { useCallback, useState } from "react";
+import React, {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 import { render, GtkBox, GtkLabel } from "../../lib";
 
 import GObject from "Gjs/GObject-2.0";
 import Gtk from "Gjs/Gtk-3.0";
 
-import { GtkTreeView, GtkWindow } from "../../lib/components";
+import {
+  GtkButton,
+  GtkEntry,
+  GtkTreeView,
+  GtkWindow,
+} from "../../lib/components";
 import { GtkTreeViewColumn } from "../../lib/components/GtkTreeView";
 
-const data = [
+const initialData = [
   {
     name: "Jurg",
     surname: "Billeter",
@@ -47,7 +57,9 @@ const data = [
   },
 ];
 
-const columns: Array<GtkTreeViewColumn<keyof typeof data[0]>> = [
+type Contact = typeof initialData[0];
+
+const columns: Array<GtkTreeViewColumn<keyof Contact>> = [
   {
     type: GObject.TYPE_STRING,
     title: "Fist Name",
@@ -74,8 +86,86 @@ const columns: Array<GtkTreeViewColumn<keyof typeof data[0]>> = [
   },
 ];
 
+interface NewContactWindowProps {
+  onSave?: (contact: Contact) => void;
+  onClose?: () => void;
+}
+
+const NewContactWindow: FunctionComponent<NewContactWindowProps> = ({
+  onSave,
+  onClose,
+}) => {
+  const [draftEntry, setDraftEntry] = useState<Contact>({
+    phone: "",
+    name: "",
+    surname: "",
+    description: "",
+  });
+  const handleSave = useCallback(() => {
+    if (onSave) {
+      onSave(draftEntry);
+    }
+  }, [draftEntry, onSave]);
+  return (
+    <GtkWindow
+      title="Add new"
+      width_request={250}
+      height_request={250}
+      onDestroy={onClose}
+    >
+      <GtkBox
+        orientation={Gtk.Orientation.VERTICAL}
+        expand
+        spacing={8}
+        margin={8}
+      >
+        <GtkLabel label="Name" hexpand />
+        <GtkEntry
+          hexpand
+          onChanged={useCallback(
+            (entry) => {
+              setDraftEntry({
+                ...draftEntry,
+                name: entry.text,
+              });
+            },
+            [draftEntry]
+          )}
+        />
+        <GtkLabel label="Surname" hexpand />
+        <GtkEntry
+          hexpand
+          onChanged={useCallback(
+            (entry) =>
+              setDraftEntry({
+                ...draftEntry,
+                surname: entry.text,
+              }),
+            [draftEntry]
+          )}
+        />
+        <GtkLabel label="Phone" hexpand />
+        <GtkEntry
+          hexpand
+          onChanged={useCallback(
+            (entry) =>
+              setDraftEntry({
+                ...draftEntry,
+                phone: entry.text,
+              }),
+            [draftEntry]
+          )}
+        />
+        <GtkButton label="Save" onClicked={handleSave} />
+      </GtkBox>
+    </GtkWindow>
+  );
+};
+
 const App = () => {
   const [cursor, setIndex] = useState([2] as number[]);
+  const [data, setData] = useState(initialData);
+  const [isDrafting, setDrafting] = useState(false as boolean);
 
   const handleSelectionChange = useCallback((sel: Gtk.TreeSelection) => {
     const [isSelected, model, iter] = sel.get_selected();
@@ -86,28 +176,38 @@ const App = () => {
     }
   }, []);
 
+  const handleSave = useCallback(
+    (draftEntry: Contact) => {
+      console.log("saving draft: ", JSON.stringify(draftEntry));
+      setData([...data, draftEntry]);
+      setDrafting(true);
+    },
+    [data]
+  );
+
+  const handleAddNew = useCallback(() => {
+    setDrafting(true);
+  }, []);
+
   return (
     <>
+      {isDrafting && (
+        <NewContactWindow
+          onSave={handleSave}
+          onClose={() => setDrafting(false)}
+        />
+      )}
       <GtkWindow width_request={550} height_request={450}>
         <GtkBox spacing={8} orientation={Gtk.Orientation.VERTICAL} margin={8}>
-          <GtkLabel label={data[cursor[0]].name} />
+          <GtkBox orientation={Gtk.Orientation.HORIZONTAL} spacing={8}>
+            <GtkLabel label={data[cursor[0]].name} hexpand />
+            <GtkButton label="Add new" onClicked={handleAddNew} />
+          </GtkBox>
           <GtkTreeView
             expand
             data={data}
             columns={columns}
             onSelectionChanged={handleSelectionChange}
-          />
-        </GtkBox>
-      </GtkWindow>
-      <GtkWindow width_request={550} height_request={450}>
-        <GtkBox spacing={8} orientation={Gtk.Orientation.VERTICAL} margin={8}>
-          <GtkLabel label={data[cursor[0]].name} />
-          <GtkTreeView
-            expand
-            data={data}
-            columns={columns}
-            onSelectionChanged={handleSelectionChange}
-            cursor={cursor}
           />
         </GtkBox>
       </GtkWindow>

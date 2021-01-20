@@ -1,6 +1,31 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+
+/***/ }),
+
 /***/ "./node_modules/Gjs/GLib-2.0.js":
 /*!**************************************!*\
   !*** ./node_modules/Gjs/GLib-2.0.js ***!
@@ -57,7 +82,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const data = [{
+const initialData = [{
   name: "Jurg",
   surname: "Billeter",
   phone: "555-0123",
@@ -111,8 +136,67 @@ const columns = [{
   attribute: "phone"
 }];
 
+const NewContactWindow = ({
+  onSave,
+  onClose
+}) => {
+  const [draftEntry, setDraftEntry] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    phone: "",
+    name: "",
+    surname: "",
+    description: ""
+  });
+  const handleSave = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
+    if (onSave) {
+      onSave(draftEntry);
+    }
+  }, [draftEntry, onSave]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkWindow, {
+    title: "Add new",
+    width_request: 250,
+    height_request: 250,
+    onDestroy: onClose
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
+    orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.VERTICAL),
+    expand: true,
+    spacing: 8,
+    margin: 8
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkLabel, {
+    label: "Name",
+    hexpand: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkEntry, {
+    hexpand: true,
+    onChanged: (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(entry => {
+      setDraftEntry({ ...draftEntry,
+        name: entry.text
+      });
+    }, [draftEntry])
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkLabel, {
+    label: "Surname",
+    hexpand: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkEntry, {
+    hexpand: true,
+    onChanged: (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(entry => setDraftEntry({ ...draftEntry,
+      surname: entry.text
+    }), [draftEntry])
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkLabel, {
+    label: "Phone",
+    hexpand: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkEntry, {
+    hexpand: true,
+    onChanged: (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(entry => setDraftEntry({ ...draftEntry,
+      phone: entry.text
+    }), [draftEntry])
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkButton, {
+    label: "Save",
+    onClicked: handleSave
+  })));
+};
+
 const App = () => {
   const [cursor, setIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([2]);
+  const [data, setData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(initialData);
+  const [isDrafting, setDrafting] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const handleSelectionChange = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(sel => {
     const [isSelected, model, iter] = sel.get_selected();
 
@@ -121,35 +205,38 @@ const App = () => {
       setIndex(cur);
     }
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkWindow, {
+  const handleSave = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(draftEntry => {
+    console.log("saving draft: ", JSON.stringify(draftEntry));
+    setData([...data, draftEntry]);
+    setDrafting(true);
+  }, [data]);
+  const handleAddNew = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
+    setDrafting(true);
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, isDrafting && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(NewContactWindow, {
+    onSave: handleSave,
+    onClose: () => setDrafting(false)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkWindow, {
     width_request: 550,
     height_request: 450
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
     spacing: 8,
     orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.VERTICAL),
     margin: 8
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
+    orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.HORIZONTAL),
+    spacing: 8
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkLabel, {
-    label: data[cursor[0]].name
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkTreeView, {
+    label: data[cursor[0]].name,
+    hexpand: true
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkButton, {
+    label: "Add new",
+    onClicked: handleAddNew
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkTreeView, {
     expand: true,
     data: data,
     columns: columns,
     onSelectionChanged: handleSelectionChange
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkWindow, {
-    width_request: 550,
-    height_request: 450
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
-    spacing: 8,
-    orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.VERTICAL),
-    margin: 8
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkLabel, {
-    label: data[cursor[0]].name
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib_components__WEBPACK_IMPORTED_MODULE_4__.GtkTreeView, {
-    expand: true,
-    data: data,
-    columns: columns,
-    onSelectionChanged: handleSelectionChange,
-    cursor: cursor
   }))));
 };
 
@@ -294,6 +381,37 @@ class _GtkContainerHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidg
 
 /***/ }),
 
+/***/ "./lib/components/GtkEntry.tsx":
+/*!*************************************!*\
+  !*** ./lib/components/GtkEntry.tsx ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* binding */ GtkEntry,
+/* harmony export */   "_GtkEntryHost": () => /* binding */ _GtkEntryHost
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
+/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
+
+
+
+function GtkEntry(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("gtk-entry", props);
+}
+class _GtkEntryHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidgetHost {
+  get gtkWidgetClass() {
+    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Entry);
+  }
+
+}
+
+/***/ }),
+
 /***/ "./lib/components/GtkLabel.tsx":
 /*!*************************************!*\
   !*** ./lib/components/GtkLabel.tsx ***!
@@ -337,19 +455,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => /* binding */ GtkTreeView,
 /* harmony export */   "_GtkTreeViewHost": () => /* binding */ _GtkTreeViewHost
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
+/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
+
 
 
 
 function GtkTreeView(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("gtk-treeview", props);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("gtk-treeview", props);
 }
-class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidgetHost {
+class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_3__._GtkWidgetHost {
   get gtkWidgetClass() {
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().TreeView);
+    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().TreeView);
   }
 
   sanitizeProps(props) {
@@ -364,19 +485,22 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidge
 
   constructor(props) {
     super(props);
-    const {
-      columns,
-      data,
-      cursor
-    } = props;
-    const store = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().ListStore)();
-    store.set_column_types(columns.map(col => col.type));
 
-    for (const datum of data) {
-      store.set(store.append(), columns.map((_, i) => i), columns.map(col => datum[col.attribute]));
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(this, "selectionChangeSignalId", void 0);
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(this, "store", void 0);
+
+    const {
+      columns
+    } = props;
+    this.store = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().ListStore)();
+    this.store.set_column_types(columns.map(col => col.type));
+
+    for (const datum of props.data) {
+      this.store.set(this.store.append(), props.columns.map((_, i) => i), props.columns.map(col => datum[col.attribute]));
     }
 
-    this.instance.model = store;
+    this.instance.model = this.store;
     let i = 0;
 
     for (const item of columns) {
@@ -386,7 +510,7 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidge
         type,
         ...props
       } = item;
-      const gtkColumn = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().TreeViewColumn)(props);
+      const gtkColumn = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().TreeViewColumn)(props);
       gtkColumn.pack_start(cellRenderer, true);
       gtkColumn.add_attribute(cellRenderer, "text", i);
       this.instance.insert_column(gtkColumn, i);
@@ -412,7 +536,15 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidge
     }
 
     if (set.includes("cursor") && props.cursor) {
-      this.instance.get_selection().select_path(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().TreePath.new_from_indices(props.cursor));
+      this.instance.get_selection().select_path(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().TreePath.new_from_indices(props.cursor));
+    }
+
+    if (set.includes("data") && this.store) {
+      this.store.clear();
+
+      for (const datum of props.data) {
+        this.store.set(this.store.append(), props.columns.map((_, i) => i), props.columns.map(col => datum[col.attribute]));
+      }
     }
   }
 
@@ -432,27 +564,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => /* binding */ GtkWidget,
 /* harmony export */   "_GtkWidgetHost": () => /* binding */ _GtkWidgetHost
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filters */ "./lib/components/filters.ts");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
+/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filters */ "./lib/components/filters.ts");
+
 
 
 
 function GtkWidget(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("gtk-widget", props);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("gtk-widget", props);
 }
 class _GtkWidgetHost {
   get gtkWidgetClass() {
     // @ts-ignore: Unfortunately this is impossible to typecheck
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Widget);
+    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().Widget);
   }
 
   sanitizeProps(props) {
-    return (0,_filters__WEBPACK_IMPORTED_MODULE_2__.omitChildren)(props);
+    return (0,_filters__WEBPACK_IMPORTED_MODULE_3__.omitChildren)(props);
   }
 
   constructor(props) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(this, "signalSource", new Map());
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(this, "signalCallback", new Map());
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(this, "instance", void 0);
+
     console.log({
       props
     });
@@ -466,9 +607,31 @@ class _GtkWidgetHost {
 
     for (const [key, value] of Object.entries(sanitizedProps)) {
       if (key.startsWith("on")) {
-        const signalName = key.replace("on", "").toLowerCase();
-        console.log("connecting signalName %s", signalName);
-        this.instance.connect(signalName, value);
+        // Convert camelCase to kebab-case
+        const signalName = key.slice(2).replace(/([a-z][A-Z])/g, group => `${group[0]}-${group[1]}`).toLowerCase();
+
+        if (set.includes(key)) {
+          // cache the handler so we don't keep reconnecting
+          if (!this.signalCallback.has(signalName)) {
+            const handler = (...args) => {
+              const callback = this.signalCallback.get(signalName);
+              if (callback) callback(...args);
+            };
+
+            const sourceId = this.instance.connect(signalName, handler);
+            console.log("connecting signalName: %s, sourceId: %d", signalName, sourceId);
+            this.signalSource.set(signalName, sourceId);
+          }
+
+          this.signalCallback.set(signalName, value);
+        }
+
+        if (unset.includes(key)) {
+          const sourceId = this.signalSource.get(signalName);
+          console.log("disconnecting signalName: %s, sourceId: %d", signalName, sourceId);
+          if (sourceId) this.instance.disconnect(sourceId);
+          this.signalCallback.delete(signalName);
+        }
       } else {
         // @ts-ignore: Unfortunately this is impossible to typecheck
         this.instance[key] = value;
@@ -586,6 +749,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "GtkBox": () => /* reexport safe */ _GtkBox__WEBPACK_IMPORTED_MODULE_3__.default,
 /* harmony export */   "GtkTreeView": () => /* reexport safe */ _GtkTreeView__WEBPACK_IMPORTED_MODULE_4__.default,
 /* harmony export */   "GtkWindow": () => /* reexport safe */ _GtkWindow__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "GtkEntry": () => /* reexport safe */ _GtkEntry__WEBPACK_IMPORTED_MODULE_6__.default,
 /* harmony export */   "_GtkHosts": () => /* binding */ _GtkHosts
 /* harmony export */ });
 /* harmony import */ var _intrinsics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./intrinsics */ "./lib/components/intrinsics.ts");
@@ -595,6 +759,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _GtkBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GtkBox */ "./lib/components/GtkBox.tsx");
 /* harmony import */ var _GtkTreeView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GtkTreeView */ "./lib/components/GtkTreeView.tsx");
 /* harmony import */ var _GtkWindow__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GtkWindow */ "./lib/components/GtkWindow.tsx");
+/* harmony import */ var _GtkEntry__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./GtkEntry */ "./lib/components/GtkEntry.tsx");
+
+
 
 
 
@@ -611,7 +778,8 @@ const _GtkHosts = {
   "gtk-button": _GtkButton__WEBPACK_IMPORTED_MODULE_2__._GtkButtonHost,
   "gtk-box": _GtkBox__WEBPACK_IMPORTED_MODULE_3__._GtkBoxHost,
   "gtk-treeview": _GtkTreeView__WEBPACK_IMPORTED_MODULE_4__._GtkTreeViewHost,
-  "gtk-window": _GtkWindow__WEBPACK_IMPORTED_MODULE_5__._GtkWindowHost
+  "gtk-window": _GtkWindow__WEBPACK_IMPORTED_MODULE_5__._GtkWindowHost,
+  "gtk-entry": _GtkEntry__WEBPACK_IMPORTED_MODULE_6__._GtkEntryHost
 };
 
 /***/ }),
@@ -638,6 +806,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => /* reexport safe */ _renderer__WEBPACK_IMPORTED_MODULE_1__.render,
 /* harmony export */   "GtkBox": () => /* reexport safe */ _components__WEBPACK_IMPORTED_MODULE_2__.GtkBox,
 /* harmony export */   "GtkButton": () => /* reexport safe */ _components__WEBPACK_IMPORTED_MODULE_2__.GtkButton,
+/* harmony export */   "GtkEntry": () => /* reexport safe */ _components__WEBPACK_IMPORTED_MODULE_2__.GtkEntry,
 /* harmony export */   "GtkLabel": () => /* reexport safe */ _components__WEBPACK_IMPORTED_MODULE_2__.GtkLabel,
 /* harmony export */   "GtkTreeView": () => /* reexport safe */ _components__WEBPACK_IMPORTED_MODULE_2__.GtkTreeView,
 /* harmony export */   "GtkWindow": () => /* reexport safe */ _components__WEBPACK_IMPORTED_MODULE_2__.GtkWindow,
@@ -808,6 +977,10 @@ const renderer = react_reconciler__WEBPACK_IMPORTED_MODULE_0___default()({
     console.log("finalizeInitialChildren");
     parentInstance.instance.show_all();
     return true;
+  },
+  insertInContainerBefore: (container, child, beforeChild) => {
+    console.log("insertInContainerBefore");
+    container.add_window(child.instance);
   },
   appendChild: (parentInstance, child) => {
     console.log("appendChild");

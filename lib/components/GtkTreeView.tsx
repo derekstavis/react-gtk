@@ -30,6 +30,7 @@ export class _GtkTreeViewHost<
   Data extends Record<string, any>
 > extends _GtkWidgetHost<GtkTreeViewProps<Data>, Gtk.TreeView> {
   private selectionChangeSignalId?: number;
+  private store: Gtk.ListStore;
 
   get gtkWidgetClass() {
     return Gtk.TreeView;
@@ -42,20 +43,20 @@ export class _GtkTreeViewHost<
 
   constructor(props: GtkTreeViewProps<Data>) {
     super(props);
-    const { columns, data, cursor } = props;
+    const { columns } = props;
 
-    const store = new Gtk.ListStore();
-    store.set_column_types(columns.map((col) => col.type));
+    this.store = new Gtk.ListStore();
+    this.store.set_column_types(columns.map((col) => col.type));
 
-    for (const datum of data) {
-      store.set(
-        store.append(),
-        columns.map((_, i) => i),
-        columns.map((col) => datum[col.attribute])
+    for (const datum of props.data) {
+      this.store.set(
+        this.store.append(),
+        props.columns.map((_, i) => i),
+        props.columns.map((col) => datum[col.attribute])
       );
     }
 
-    this.instance.model = store;
+    this.instance.model = this.store;
 
     let i = 0;
     for (const item of columns) {
@@ -94,6 +95,17 @@ export class _GtkTreeViewHost<
       this.instance
         .get_selection()
         .select_path(Gtk.TreePath.new_from_indices(props.cursor));
+    }
+
+    if (set.includes("data") && this.store) {
+      this.store.clear();
+      for (const datum of props.data) {
+        this.store.set(
+          this.store.append(),
+          props.columns.map((_, i) => i),
+          props.columns.map((col) => datum[col.attribute])
+        );
+      }
     }
   }
 }
