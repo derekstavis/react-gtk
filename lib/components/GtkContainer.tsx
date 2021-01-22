@@ -1,10 +1,10 @@
 import React from "react";
 
-import Gtk from "Gjs/Gtk-3.0";
+import Gtk from "gtk";
 
 import { _GtkWidgetHost } from "./GtkWidget";
 
-export interface GtkContainerProps extends Gtk.Container_ConstructProps {
+export interface GtkContainerProps extends Gtk.Container.ConstructorProperties {
   children?: React.ReactNode;
 }
 

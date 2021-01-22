@@ -1,5 +1,4 @@
-import GLib from "Gjs/GLib-2.0";
-
+// @ts-ignore
 const Format = imports.format;
 
 const isFormatted = (message: string) =>

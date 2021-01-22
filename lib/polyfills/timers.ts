@@ -1,4 +1,4 @@
-import GLib from "Gjs/GLib-2.0";
+import GLib from "glib";
 
 const timers = {
   setImmediate: <T extends any[]>(

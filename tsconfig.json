@@ -12,7 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "lib": ["ES2017"],
-    "types": ["Gjs", "react", "react-reconciler"],
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "lib/@types/*"]
+    },
+    "types": ["react", "react-reconciler"],
+    "explainFiles": true,
     "skipLibCheck": true
   }
 }

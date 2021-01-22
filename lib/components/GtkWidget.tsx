@@ -1,11 +1,11 @@
 import React from "react";
 
-import Gtk from "Gjs/Gtk-3.0";
+import Gtk from "gtk";
 
 import { omitChildren } from "./filters";
 import { _GtkContainerHost } from "./GtkContainer";
 
-export interface GtkWidgetProps extends Gtk.Widget_ConstructProps {}
+export interface GtkWidgetProps extends Gtk.Widget.ConstructorProperties {}
 
 export default function GtkWidget<Props = {}>(props: GtkWidgetProps & Props) {
   return <gtk-widget {...props} />;
@@ -27,7 +27,7 @@ export class _GtkWidgetHost<
 
   sanitizeProps(
     props: PublicProps & { [key: string]: any }
-  ): Gtk.Widget_ConstructProps & { [key: string]: any } {
+  ): Partial<Gtk.Widget.ConstructorProperties> & { [key: string]: any } {
     return omitChildren(props);
   }
 

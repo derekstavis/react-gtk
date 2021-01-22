@@ -26,42 +26,6 @@ module.exports = _defineProperty;
 
 /***/ }),
 
-/***/ "./node_modules/Gjs/GLib-2.0.js":
-/*!**************************************!*\
-  !*** ./node_modules/Gjs/GLib-2.0.js ***!
-  \**************************************/
-/***/ ((module) => {
-
-imports.gi.versions.GLib = '2.0';
-module.exports = imports.gi.GLib;
-
-
-/***/ }),
-
-/***/ "./node_modules/Gjs/GObject-2.0.js":
-/*!*****************************************!*\
-  !*** ./node_modules/Gjs/GObject-2.0.js ***!
-  \*****************************************/
-/***/ ((module) => {
-
-imports.gi.versions.GObject = '2.0';
-module.exports = imports.gi.GObject;
-
-
-/***/ }),
-
-/***/ "./node_modules/Gjs/Gtk-3.0.js":
-/*!*************************************!*\
-  !*** ./node_modules/Gjs/Gtk-3.0.js ***!
-  \*************************************/
-/***/ ((module) => {
-
-imports.gi.versions.Gtk = '3.0';
-module.exports = imports.gi.Gtk;
-
-
-/***/ }),
-
 /***/ "./examples/demo/index.tsx":
 /*!*********************************!*\
   !*** ./examples/demo/index.tsx ***!
@@ -72,10 +36,8 @@ module.exports = imports.gi.Gtk;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _lib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../lib */ "./lib/index.ts");
-/* harmony import */ var Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Gjs/GObject-2.0 */ "./node_modules/Gjs/GObject-2.0.js");
-/* harmony import */ var Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var gobject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gobject */ "./node_modules/gobject.js");
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _lib_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../lib/components */ "./lib/components/index.ts");
 
 
@@ -114,23 +76,23 @@ const initialData = [{
   description: "Very random!"
 }];
 const columns = [{
-  type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
+  type: gobject__WEBPACK_IMPORTED_MODULE_2__.default.TYPE_STRING,
   title: "Fist Name",
-  cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
+  cellRenderer: new gtk__WEBPACK_IMPORTED_MODULE_3__.default.CellRendererText({}),
   expand: true,
   resizable: true,
   attribute: "name"
 }, {
-  type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
+  type: String,
   title: "Last Name",
-  cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
+  cellRenderer: new gtk__WEBPACK_IMPORTED_MODULE_3__.default.CellRendererText({}),
   expand: true,
   resizable: true,
   attribute: "surname"
 }, {
-  type: (Gjs_GObject_2_0__WEBPACK_IMPORTED_MODULE_2___default().TYPE_STRING),
+  type: String,
   title: "Phone Number",
-  cellRenderer: new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().CellRendererText)({}),
+  cellRenderer: new gtk__WEBPACK_IMPORTED_MODULE_3__.default.CellRendererText({}),
   expand: true,
   resizable: true,
   attribute: "phone"
@@ -157,7 +119,7 @@ const NewContactWindow = ({
     height_request: 250,
     onDestroy: onClose
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
-    orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.VERTICAL),
+    orientation: gtk__WEBPACK_IMPORTED_MODULE_3__.default.Orientation.VERTICAL,
     expand: true,
     spacing: 8,
     margin: 8
@@ -221,10 +183,10 @@ const App = () => {
     height_request: 450
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
     spacing: 8,
-    orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.VERTICAL),
+    orientation: gtk__WEBPACK_IMPORTED_MODULE_3__.default.Orientation.VERTICAL,
     margin: 8
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkBox, {
-    orientation: (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Orientation.HORIZONTAL),
+    orientation: gtk__WEBPACK_IMPORTED_MODULE_3__.default.Orientation.HORIZONTAL,
     spacing: 8
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_lib__WEBPACK_IMPORTED_MODULE_1__.GtkLabel, {
     label: data[cursor[0]].name,
@@ -240,14 +202,14 @@ const App = () => {
   }))));
 };
 
-Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().init(null);
-const app = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().Application)();
+gtk__WEBPACK_IMPORTED_MODULE_3__.default.init(null);
+const app = new gtk__WEBPACK_IMPORTED_MODULE_3__.default.Application();
 app.connect("startup", () => {
   (0,_lib__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, null), app);
   console.log("rendered");
 });
 app.run(ARGV);
-Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_3___default().main();
+gtk__WEBPACK_IMPORTED_MODULE_3__.default.main();
 
 /***/ }),
 
@@ -277,8 +239,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "_GtkBoxHost": () => /* binding */ _GtkBoxHost
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _GtkContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkContainer */ "./lib/components/GtkContainer.tsx");
 
 
@@ -288,7 +249,7 @@ function GtkBox(props) {
 }
 class _GtkBoxHost extends _GtkContainer__WEBPACK_IMPORTED_MODULE_2__._GtkContainerHost {
   get gtkWidgetClass() {
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Box);
+    return gtk__WEBPACK_IMPORTED_MODULE_1__.default.Box;
   }
 
 }
@@ -308,8 +269,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "_GtkButtonHost": () => /* binding */ _GtkButtonHost
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
 
 
@@ -319,7 +279,7 @@ function GtkButton(props) {
 }
 class _GtkButtonHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidgetHost {
   get gtkWidgetClass() {
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Button);
+    return gtk__WEBPACK_IMPORTED_MODULE_1__.default.Button;
   }
 
 }
@@ -339,8 +299,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "_GtkContainerHost": () => /* binding */ _GtkContainerHost
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
 
 
@@ -351,7 +310,7 @@ function GtkContainer(props) {
 class _GtkContainerHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidgetHost {
   get gtkWidgetClass() {
     // @ts-ignore: Unfortunately this is impossible to typecheck
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Container);
+    return gtk__WEBPACK_IMPORTED_MODULE_1__.default.Container;
   }
 
   appendChild(child) {
@@ -394,8 +353,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "_GtkEntryHost": () => /* binding */ _GtkEntryHost
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
 
 
@@ -405,7 +363,7 @@ function GtkEntry(props) {
 }
 class _GtkEntryHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidgetHost {
   get gtkWidgetClass() {
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Entry);
+    return gtk__WEBPACK_IMPORTED_MODULE_1__.default.Entry;
   }
 
 }
@@ -425,8 +383,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "_GtkLabelHost": () => /* binding */ _GtkLabelHost
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
 
 
@@ -436,7 +393,7 @@ function GtkLabel(props) {
 }
 class _GtkLabelHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_2__._GtkWidgetHost {
   get gtkWidgetClass() {
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Label);
+    return gtk__WEBPACK_IMPORTED_MODULE_1__.default.Label;
   }
 
 }
@@ -458,8 +415,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _GtkWidget__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GtkWidget */ "./lib/components/GtkWidget.tsx");
 
 
@@ -470,7 +426,7 @@ function GtkTreeView(props) {
 }
 class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_3__._GtkWidgetHost {
   get gtkWidgetClass() {
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().TreeView);
+    return gtk__WEBPACK_IMPORTED_MODULE_2__.default.TreeView;
   }
 
   sanitizeProps(props) {
@@ -493,7 +449,7 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_3__._GtkWidge
     const {
       columns
     } = props;
-    this.store = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().ListStore)();
+    this.store = new gtk__WEBPACK_IMPORTED_MODULE_2__.default.ListStore();
     this.store.set_column_types(columns.map(col => col.type));
 
     for (const datum of props.data) {
@@ -510,7 +466,7 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_3__._GtkWidge
         type,
         ...props
       } = item;
-      const gtkColumn = new (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().TreeViewColumn)(props);
+      const gtkColumn = new gtk__WEBPACK_IMPORTED_MODULE_2__.default.TreeViewColumn(props);
       gtkColumn.pack_start(cellRenderer, true);
       gtkColumn.add_attribute(cellRenderer, "text", i);
       this.instance.insert_column(gtkColumn, i);
@@ -521,7 +477,7 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_3__._GtkWidge
   updateProps(props, set, unset) {
     super.updateProps(props, set, unset);
 
-    if (set.includes("onSelectionChanged")) {
+    if (set.includes("onSelectionChanged") && props.onSelectionChanged) {
       if (this.selectionChangeSignalId) {
         this.instance.get_selection().disconnect(this.selectionChangeSignalId);
       }
@@ -536,7 +492,7 @@ class _GtkTreeViewHost extends _GtkWidget__WEBPACK_IMPORTED_MODULE_3__._GtkWidge
     }
 
     if (set.includes("cursor") && props.cursor) {
-      this.instance.get_selection().select_path(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().TreePath.new_from_indices(props.cursor));
+      this.instance.get_selection().select_path(gtk__WEBPACK_IMPORTED_MODULE_2__.default.TreePath.new_from_indices(props.cursor));
     }
 
     if (set.includes("data") && this.store) {
@@ -567,8 +523,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filters */ "./lib/components/filters.ts");
 
 
@@ -580,7 +535,7 @@ function GtkWidget(props) {
 class _GtkWidgetHost {
   get gtkWidgetClass() {
     // @ts-ignore: Unfortunately this is impossible to typecheck
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_2___default().Widget);
+    return gtk__WEBPACK_IMPORTED_MODULE_2__.default.Widget;
   }
 
   sanitizeProps(props) {
@@ -672,8 +627,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "_GtkWindowHost": () => /* binding */ _GtkWindowHost
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Gjs/Gtk-3.0 */ "./node_modules/Gjs/Gtk-3.0.js");
-/* harmony import */ var Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var gtk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gtk */ "./node_modules/gtk.js");
 /* harmony import */ var _GtkContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GtkContainer */ "./lib/components/GtkContainer.tsx");
 
 
@@ -683,7 +637,7 @@ function GtkWindow(props) {
 }
 class _GtkWindowHost extends _GtkContainer__WEBPACK_IMPORTED_MODULE_2__._GtkContainerHost {
   get gtkWidgetClass() {
-    return (Gjs_Gtk_3_0__WEBPACK_IMPORTED_MODULE_1___default().Window);
+    return gtk__WEBPACK_IMPORTED_MODULE_1__.default.Window;
   }
 
   constructor(props) {
@@ -832,6 +786,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+// @ts-ignore
 const Format = imports.format;
 
 const isFormatted = message => /%(s|o|O|d|i|(\.[0-9]+){0,1}f)/.test(message);
@@ -892,36 +847,35 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! Gjs/GLib-2.0 */ "./node_modules/Gjs/GLib-2.0.js");
-/* harmony import */ var Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var glib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! glib */ "./node_modules/glib.js");
 
 const timers = {
   setImmediate: (handler, ...args) => {
-    return Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().idle_add((Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().PRIORITY_HIGH_IDLE), () => {
+    return glib__WEBPACK_IMPORTED_MODULE_0__.default.idle_add(glib__WEBPACK_IMPORTED_MODULE_0__.default.PRIORITY_HIGH_IDLE, () => {
       handler(...args);
       return false;
     });
   },
   clearImmediate: immediateId => {
-    Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().source_remove(immediateId);
+    glib__WEBPACK_IMPORTED_MODULE_0__.default.source_remove(immediateId);
   },
   setInterval: (handler, interval) => {
-    return Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().timeout_add((Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().PRIORITY_DEFAULT), interval, () => {
+    return glib__WEBPACK_IMPORTED_MODULE_0__.default.timeout_add(glib__WEBPACK_IMPORTED_MODULE_0__.default.PRIORITY_DEFAULT, interval, () => {
       handler();
       return true;
     });
   },
   clearInterval: intervalId => {
-    Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().source_remove(intervalId);
+    glib__WEBPACK_IMPORTED_MODULE_0__.default.source_remove(intervalId);
   },
   setTimeout: (handler, interval) => {
-    return Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().timeout_add((Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().PRIORITY_DEFAULT), interval, () => {
+    return glib__WEBPACK_IMPORTED_MODULE_0__.default.timeout_add(glib__WEBPACK_IMPORTED_MODULE_0__.default.PRIORITY_DEFAULT, interval, () => {
       handler();
       return false;
     });
   },
   clearTimeout: timeoutId => {
-    Gjs_GLib_2_0__WEBPACK_IMPORTED_MODULE_0___default().source_remove(timeoutId);
+    glib__WEBPACK_IMPORTED_MODULE_0__.default.source_remove(timeoutId);
   }
 };
 Object.assign(window, timers);
@@ -1035,10 +989,12 @@ const renderer = react_reconciler__WEBPACK_IMPORTED_MODULE_0___default()({
     console.log("commitUpdate");
 
     for (const key of updatePayload.unset) {
-      instance.instance[key] = null;
+      instance.instance.set_property(key, null);
     }
 
-    instance.updateProps(newProps, updatePayload.set, updatePayload.unset);
+    instance.updateProps(newProps, updatePayload.set, updatePayload.unset); // stop compiler from yelling at unused stuff
+
+    void type, oldProps, internalInstanceHandle;
   },
   commitMount: (instance, type, newProps, internalInstanceHandle) => {
     console.log("commitMount"); // noop
@@ -1493,6 +1449,51 @@ var circularShallowEqual = createComparator(createCircularEqualCreator(sameValue
 
 //# sourceMappingURL=fast-equals.esm.js.map
 
+
+/***/ }),
+
+/***/ "./node_modules/glib.js":
+/*!******************************!*\
+  !*** ./node_modules/glib.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (imports.gi.GLib);
+
+/***/ }),
+
+/***/ "./node_modules/gobject.js":
+/*!*********************************!*\
+  !*** ./node_modules/gobject.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (imports.gi.GObject);
+
+/***/ }),
+
+/***/ "./node_modules/gtk.js":
+/*!*****************************!*\
+  !*** ./node_modules/gtk.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (imports.gi.Gtk);
 
 /***/ }),
 

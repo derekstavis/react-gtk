@@ -1,10 +1,10 @@
 import React from "react";
 
-import Gtk from "Gjs/Gtk-3.0";
+import Gtk from "gtk";
 
 import { _GtkWidgetHost } from "./GtkWidget";
 
-export interface GtkHeaderBarProps extends Gtk.HeaderBar_ConstructProps {}
+export interface GtkHeaderBarProps extends Gtk.HeaderBar.ConstructorProperties {}
 
 export default function GtkHeaderBar(props: GtkHeaderBarProps) {
   return <gtk-headerbar {...props} />;

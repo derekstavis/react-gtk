@@ -1,14 +1,13 @@
 import React, {
   FunctionComponent,
   useCallback,
-  useEffect,
   useState,
 } from "react";
 
 import { render, GtkBox, GtkLabel } from "../../lib";
 
-import GObject from "Gjs/GObject-2.0";
-import Gtk from "Gjs/Gtk-3.0";
+import GObject from "gobject";
+import Gtk from "gtk";
 
 import {
   GtkButton,
@@ -69,7 +68,7 @@ const columns: Array<GtkTreeViewColumn<keyof Contact>> = [
     attribute: "name" as "name",
   },
   {
-    type: GObject.TYPE_STRING,
+    type: String,
     title: "Last Name",
     cellRenderer: new Gtk.CellRendererText({}),
     expand: true,
@@ -77,7 +76,7 @@ const columns: Array<GtkTreeViewColumn<keyof Contact>> = [
     attribute: "surname" as "surname",
   },
   {
-    type: GObject.TYPE_STRING,
+    type: String,
     title: "Phone Number",
     cellRenderer: new Gtk.CellRendererText({}),
     expand: true,

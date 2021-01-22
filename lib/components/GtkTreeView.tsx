@@ -1,19 +1,19 @@
-import React, { ReactNode } from "react";
+import React from "react";
 
-import Gtk from "Gjs/Gtk-3.0";
-import GObject from "Gjs/GObject-2.0";
+import Gtk from "gtk";
+import GObject from "gobject";
 
 import { _GtkWidgetHost } from "./GtkWidget";
 
 export interface GtkTreeViewColumn<Keys extends string>
-  extends Gtk.TreeViewColumn_ConstructProps {
-  type: GObject.Type;
+  extends Partial<Gtk.TreeViewColumn.ConstructorProperties> {
+  type: GObject.GType;
   cellRenderer: Gtk.CellRenderer;
   attribute: Keys;
 }
 
 export interface GtkTreeViewProps<Data extends { [k: string]: any }>
-  extends Gtk.TreeView_ConstructProps {
+  extends Partial<Gtk.TreeView.ConstructorProperties> {
   columns: GtkTreeViewColumn<Exclude<keyof Data, number | symbol>>[];
   data: Data[];
   onSelectionChanged?: (selection: Gtk.TreeSelection) => void;
@@ -36,7 +36,9 @@ export class _GtkTreeViewHost<
     return Gtk.TreeView;
   }
 
-  sanitizeProps(props: GtkTreeViewProps<Data>): Gtk.TreeView_ConstructProps {
+  sanitizeProps(
+    props: GtkTreeViewProps<Data>
+  ): Partial<Gtk.TreeView.ConstructorProperties> {
     const { columns: _, data: __, onSelectionChanged: ___, ...rest } = props;
     return rest;
   }
@@ -76,7 +78,7 @@ export class _GtkTreeViewHost<
   ) {
     super.updateProps(props, set, unset);
 
-    if (set.includes("onSelectionChanged")) {
+    if (set.includes("onSelectionChanged") && props.onSelectionChanged) {
       if (this.selectionChangeSignalId) {
         this.instance.get_selection().disconnect(this.selectionChangeSignalId);
       }

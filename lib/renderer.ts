@@ -1,12 +1,20 @@
 import Reconciler, { FiberRoot } from "react-reconciler";
 import { shallowEqual } from "fast-equals";
 
-import Gtk from "Gjs/Gtk-3.0";
-import GLib from "Gjs/GLib-2.0";
+import Gtk from "gtk";
 
-import { GtkWidgets } from "./components/types";
 import { _GtkHosts } from "./components";
 import { _GtkWidgetHost } from "./components/GtkWidget";
+
+type Props = {
+  children?: React.ReactNode;
+  [key: string]: any;
+};
+
+type UpdatePayload = {
+  set: keyof Gtk.Widget.ConstructorProperties;
+  unset: keyof Gtk.Widget.ConstructorProperties;
+};
 
 const renderer = Reconciler({
   supportsMutation: true,
@@ -19,7 +27,7 @@ const renderer = Reconciler({
   resetAfterCommit: () => {
     console.log("resetAfterCommit");
   },
-  clearContainer: (container) => {
+  clearContainer: (container: Gtk.Application) => {
     console.log("clearContainer", container.constructor.name);
     // container.clearContainer();
   },
@@ -50,7 +58,7 @@ const renderer = Reconciler({
     hostContext
   ) => {
     console.log("finalizeInitialChildren");
-    parentInstance.instance.show_all()
+    parentInstance.instance.show_all();
     return true;
   },
   insertInContainerBefore: (container, child, beforeChild) => {
@@ -82,8 +90,8 @@ const renderer = Reconciler({
     hostContext
   ) {
     console.log("prepareUpdate");
-    const { children: _, ...oldNoChildren } = oldProps;
-    const { children: __, ...newNoChildren } = newProps;
+    const { children: _, ...oldNoChildren } = oldProps as Props;
+    const { children: __, ...newNoChildren } = newProps as Props;
     const propsAreEqual = shallowEqual(oldNoChildren, newNoChildren);
 
     if (propsAreEqual) {
@@ -125,19 +133,22 @@ const renderer = Reconciler({
   },
   commitUpdate: (
     instance: _GtkWidgetHost,
-    updatePayload,
+    updatePayload: UpdatePayload,
     type,
-    oldProps,
-    newProps,
+    oldProps: Gtk.Widget.ConstructorProperties,
+    newProps: Gtk.Widget.ConstructorProperties,
     internalInstanceHandle
   ) => {
     console.log("commitUpdate");
 
     for (const key of updatePayload.unset) {
-      instance.instance[key] = null;
+      instance.instance.set_property(key, null);
     }
 
     instance.updateProps(newProps, updatePayload.set, updatePayload.unset);
+
+    // stop compiler from yelling at unused stuff
+    void type, oldProps, internalInstanceHandle;
   },
   commitMount: (instance, type, newProps, internalInstanceHandle) => {
     console.log("commitMount");
