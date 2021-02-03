@@ -200,4 +200,5 @@ export const _GtkHosts = {
   "gtk-vseparator": _GtkVSeparatorHost,
   "gtk-widget": _GtkWidgetHost,
   "gtk-window": _GtkWindowHost,
+  "gtk-prop-wrapper": _GtkPropWrapperHost,
 };
