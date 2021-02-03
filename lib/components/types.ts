@@ -1,4 +1,4 @@
-import Gtk from "Gjs/Gtk-3.0";
+import Gtk from "gtk";
 
 export type GtkWidgetTypes = new (...args: any[]) => GtkWidgets;
 
