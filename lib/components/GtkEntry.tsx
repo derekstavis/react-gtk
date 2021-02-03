@@ -4,7 +4,8 @@ import Gtk from "gtk";
 
 import { _GtkWidgetHost } from "./GtkWidget";
 
-export interface GtkEntryProps extends Gtk.Entry.ConstructorProperties {
+export interface GtkEntryProps
+  extends Partial<Gtk.Entry.ConstructorProperties> {
   onChanged: (entry: Gtk.Entry) => void;
 }
 

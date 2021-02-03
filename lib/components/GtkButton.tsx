@@ -4,8 +4,9 @@ import Gtk from "gtk";
 
 import { _GtkWidgetHost } from "./GtkWidget";
 
-export interface GtkButtonProps extends Gtk.Button.ConstructorProperties {
-  onClicked: () => void;
+export interface GtkButtonProps
+  extends Partial<Gtk.Button.ConstructorProperties> {
+  onClicked?: () => void;
 }
 
 export default function GtkButton(props: GtkButtonProps) {

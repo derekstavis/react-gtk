@@ -1,15 +1,56 @@
 import React from "react";
 
-import {render} from "../..";
+import Gtk from "gtk";
 
-import Gtk from "Gjs/Gtk-3.0";
+import {
+  GtkBox,
+  GtkButton,
+  GtkHeaderBar,
+  GtkLabel,
+  GtkWindow,
+  render,
+} from "../../lib";
 
-const window = new Gtk.Window({
-  title: "React GTK Test"
-})
+const app = new Gtk.Application();
 
-const App = () => (null);
+const App = () => {
+  return (
+    <>
+      <GtkWindow
+        width_request={550}
+        height_request={450}
+        onDestroy={() => app.quit()}
+        titlebar={
+          <GtkHeaderBar
+            title="xxx"
+            pack_start={
+              <GtkBox>
+                <GtkButton label="aaa" />
+                <GtkButton label="bbb" />
+              </GtkBox>
+            }
+            pack_end={
+              <GtkBox>
+                <GtkButton label="ccc" />
+                <GtkButton label="ddd" />
+              </GtkBox>
+            }
+          />
+        }
+      >
+        <GtkLabel label="Hello" />
+      </GtkWindow>
+    </>
+  );
+};
 
-render(<App />, window);
+Gtk.init(null);
 
-window.show_all();
+app.connect("activate", () => {
+  render(<App />, app);
+  console.log("rendered");
+});
+
+app.run(ARGV);
+
+Gtk.main();

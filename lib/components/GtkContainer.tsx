@@ -3,8 +3,10 @@ import React from "react";
 import Gtk from "gtk";
 
 import { _GtkWidgetHost } from "./GtkWidget";
+import { _GtkPropWrapperHost } from "./GtkPropWrapper";
 
-export interface GtkContainerProps extends Gtk.Container.ConstructorProperties {
+export interface GtkContainerProps
+  extends Partial<Gtk.Container.ConstructorProperties> {
   children?: React.ReactNode;
 }
 
@@ -23,21 +25,18 @@ export class _GtkContainerHost<
     return Gtk.Container;
   }
 
-  appendChild(child: _GtkWidgetHost) {
-    if (this.instance.add) {
-      console.log(child);
-      this.instance.add(child.instance as Gtk.Widget);
-    } else {
-      super.appendChild(child);
+  appendChild(child: _GtkWidgetHost | _GtkPropWrapperHost) {
+    if (child instanceof _GtkPropWrapperHost) {
+      return;
     }
+    this.instance.add(child.instance);
   }
 
-  removeChild<_GtkHost>(child: _GtkWidgetHost) {
-    if (this.instance.remove) {
-      this.instance.remove(child.instance as Gtk.Widget);
-    } else {
-      super.removeChild(child);
+  removeChild(child: _GtkWidgetHost | _GtkPropWrapperHost) {
+    if (child instanceof _GtkPropWrapperHost) {
+      return;
     }
+    this.instance.remove(child.instance);
   }
 
   clearContainer() {

@@ -1,24 +1,27 @@
 import React from "react";
 
+import Reconciler, { FiberRoot } from "react-reconciler";
+
 import Gtk from "gtk";
 
-import { omitChildren } from "./filters";
+import { omitChildren, omitKeys } from "./filters";
 import { _GtkContainerHost } from "./GtkContainer";
 
-export interface GtkWidgetProps extends Gtk.Widget.ConstructorProperties {}
+export interface GtkWidgetProps
+  extends Partial<Gtk.Widget.ConstructorProperties> {}
 
 export default function GtkWidget<Props = {}>(props: GtkWidgetProps & Props) {
   return <gtk-widget {...props} />;
 }
 
 export class _GtkWidgetHost<
-  PublicProps = GtkWidgetProps,
+  PublicProps extends GtkWidgetProps = GtkWidgetProps,
   GtkType extends Gtk.Widget = Gtk.Widget
 > {
-  signalSource = new Map<string, number>();
-  signalCallback = new Map<string, (...args: any) => void>();
-
   public readonly instance: GtkType;
+
+  private signalSource = new Map<string, number>();
+  private signalCallback = new Map<string, (...args: any) => void>();
 
   get gtkWidgetClass(): { new (...args: any): GtkType } {
     // @ts-ignore: Unfortunately this is impossible to typecheck

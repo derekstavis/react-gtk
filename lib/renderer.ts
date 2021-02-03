@@ -4,7 +4,8 @@ import { shallowEqual } from "fast-equals";
 import Gtk from "gtk";
 
 import { _GtkHosts } from "./components";
-import { _GtkWidgetHost } from "./components/GtkWidget";
+import { GtkWidgetProps, _GtkWidgetHost } from "./components/GtkWidget";
+import { _GtkWindowHost } from "./components/GtkWindow";
 
 type Props = {
   children?: React.ReactNode;
@@ -12,83 +13,115 @@ type Props = {
 };
 
 type UpdatePayload = {
-  set: keyof Gtk.Widget.ConstructorProperties;
-  unset: keyof Gtk.Widget.ConstructorProperties;
+  set: Array<keyof Gtk.Widget.ConstructorProperties>;
+  unset: Array<keyof Gtk.Widget.ConstructorProperties>;
 };
 
 const renderer = Reconciler({
   supportsMutation: true,
-  getRootHostContext: () => ({
-    isInsideText: false,
-  }),
+  isPrimaryRenderer: true,
+  getRootHostContext: () => null,
   prepareForCommit: () => {
     console.log("prepareForCommit");
+    return null;
   },
   resetAfterCommit: () => {
     console.log("resetAfterCommit");
+    return null;
   },
+  // @ts-ignore
   clearContainer: (container: Gtk.Application) => {
     console.log("clearContainer", container.constructor.name);
-    // container.clearContainer();
+    const windows = container.get_windows();
+    windows.forEach((w) => container.remove_window(w));
   },
-  getChildHostContext: (parentHostContext, type, rootContainerInstance) => {
-    return {};
+  getChildHostContext: (parentHostContext) => {
+    return parentHostContext;
   },
-  shouldSetTextContent: (type, props) => {
+  shouldSetTextContent: () => {
     return false;
   },
-  createInstance(
+  createInstance: (
     type: keyof typeof _GtkHosts,
-    props,
-    rootContainerInstance,
-    hostContext,
-    internalInstanceHandle
-  ) {
+    props: Record<string, any>
+  ) => {
     console.log("createInstance");
-
     const Type = _GtkHosts[type];
-
+    // @ts-ignore
     return new Type(props);
   },
-  finalizeInitialChildren: (
-    parentInstance,
-    type,
-    props,
-    rootContainerInstance,
-    hostContext
+  getPublicInstance: (instance: _GtkWidgetHost) => {
+    console.log("getPublicInstance");
+    return instance.instance;
+  },
+  appendChildToContainer: (
+    container: Gtk.Application,
+    child: _GtkWindowHost
   ) => {
+    console.log("appendChildToContainer");
+    if (typeof child === "undefined") {
+      return;
+    }
+    container.add_window(child.instance);
+  },
+  insertInContainerBefore: (
+    container: Gtk.Application,
+    child: _GtkWindowHost
+  ) => {
+    console.log("insertInContainerBefore");
+    if (typeof child === "undefined") {
+      return;
+    }
+    container.add_window(child.instance);
+  },
+  finalizeContainerChildren: (_: Gtk.Application, child: _GtkWidgetHost) => {
+    console.log("finalizeContainerChildren");
+    if (typeof child === "undefined") {
+      return;
+    }
+    child.instance.show_all();
+    return false;
+  },
+  appendChild: (parentInstance: _GtkWidgetHost, child: _GtkWidgetHost) => {
+    console.log("appendChild");
+    if (typeof child === "undefined") {
+      return;
+    }
+    parentInstance.appendChild(child);
+  },
+  appendInitialChild: (
+    parentInstance: _GtkWidgetHost,
+    child: _GtkWidgetHost
+  ) => {
+    console.log("appendInitialChild");
+    if (typeof child === "undefined") {
+      return;
+    }
+    parentInstance.appendChild(child);
+  },
+  finalizeInitialChildren: (parentInstance: _GtkWidgetHost) => {
     console.log("finalizeInitialChildren");
     parentInstance.instance.show_all();
-    return true;
+    return false;
   },
-  insertInContainerBefore: (container, child, beforeChild) => {
-    console.log("insertInContainerBefore");
-    container.add_window(child.instance);
+  removeChild: (parentInstance: _GtkWidgetHost, child: _GtkWidgetHost) => {
+    console.log("removeChild");
+    if (typeof child === "undefined") {
+      return;
+    }
+    parentInstance.removeChild(child);
   },
-  appendChild: (parentInstance, child) => {
-    console.log("appendChild");
-    parentInstance.appendChild(child);
-  },
-  appendInitialChild: (parentInstance, child) => {
-    console.log("appendInitialChild");
-    parentInstance.appendChild(child);
-  },
-  appendChildToContainer: (container, child) => {
-    console.log("appendChildToContainer");
-    container.add_window(child.instance);
-  },
-  removeChildFromContainer: (container, child) => {
+  removeChildFromContainer: (
+    container: Gtk.Application,
+    child: _GtkWindowHost
+  ) => {
     console.log("removeChildFromContainer");
+    if (typeof child === "undefined") {
+      return;
+    }
     container.remove_window(child.instance);
   },
-  prepareUpdate(
-    instance,
-    type,
-    oldProps,
-    newProps,
-    rootContainerInstance,
-    hostContext
-  ) {
+  prepareUpdate(instance, type, oldProps, newProps) {
     console.log("prepareUpdate");
     const { children: _, ...oldNoChildren } = oldProps as Props;
     const { children: __, ...newNoChildren } = newProps as Props;
@@ -114,20 +147,20 @@ const renderer = Reconciler({
       [] as string[]
     );
 
-    console.log(
-      "prepareUpdate",
-      JSON.stringify(
-        {
-          oldNoChildren: Object.keys(oldNoChildren),
-          newNoChildren: Object.keys(newNoChildren),
-          set,
-          unset,
-        },
-        null,
-        2
-      ),
-      propsAreEqual
-    );
+    // console.log(
+    //   "prepareUpdate",
+    //   JSON.stringify(
+    //     {
+    //       oldNoChildren: Object.keys(oldNoChildren),
+    //       newNoChildren: Object.keys(newNoChildren),
+    //       set,
+    //       unset,
+    //     },
+    //     null,
+    //     2
+    //   ),
+    //   propsAreEqual
+    // );
 
     return { unset, set };
   },
@@ -142,7 +175,7 @@ const renderer = Reconciler({
     console.log("commitUpdate");
 
     for (const key of updatePayload.unset) {
-      instance.instance.set_property(key, null);
+      instance.instance.set_property(key as string, null);
     }
 
     instance.updateProps(newProps, updatePayload.set, updatePayload.unset);

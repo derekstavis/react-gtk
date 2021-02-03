@@ -1,0 +1,8 @@
+overwrite: true
+schema: "https://api.staging.brexapps.com/v1/graphql"
+documents: "examples/demo/*.tsx"
+generates:
+  examples/demo/__generated__/index.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"

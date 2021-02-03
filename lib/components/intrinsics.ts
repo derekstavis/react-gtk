@@ -1,4 +1,5 @@
 import Gtk from "gtk";
+import {GtkPropWrapperProps} from "./GtkPropWrapper";
 
 declare global {
   namespace JSX {
@@ -74,6 +75,7 @@ declare global {
       "gtk-sizegroup": Partial<Gtk.SizeGroup.ConstructorProperties>;
       "gtk-tooltip": Partial<Gtk.Tooltip.ConstructorProperties>;
       "gtk-window": Partial<Gtk.Window.ConstructorProperties>;
+      "gtk-prop-wrapper": GtkPropWrapperProps;
     }
   }
 }

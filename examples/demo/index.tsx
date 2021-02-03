@@ -1,213 +1,150 @@
 import React, {
   FunctionComponent,
   useCallback,
+  useEffect,
   useState,
 } from "react";
+
+import {
+  ApolloClient,
+  InMemoryCache,
+  gql,
+  HttpLink,
+  useQuery,
+} from "@apollo/client";
 
 import { render, GtkBox, GtkLabel } from "../../lib";
 
 import GObject from "gobject";
 import Gtk from "gtk";
+import GLib from "glib";
 
 import {
-  GtkButton,
-  GtkEntry,
+  GtkHeaderBar,
+  GtkSpinner,
   GtkTreeView,
   GtkWindow,
 } from "../../lib/components";
 import { GtkTreeViewColumn } from "../../lib/components/GtkTreeView";
 
-const initialData = [
-  {
-    name: "Jurg",
-    surname: "Billeter",
-    phone: "555-0123",
-    description: "A friendly person.",
-  },
-  {
-    name: "Johannes",
-    surname: "Schmid",
-    phone: "555-1234",
-    description: "Easy phone number to remember.",
-  },
-  {
-    name: "Julita",
-    surname: "Inca",
-    phone: "555-2345",
-    description: "Another friendly person.",
-  },
-  {
-    name: "Javier",
-    surname: "Jardon",
-    phone: "555-3456",
-    description: "Bring fish for his penguins.",
-  },
-  {
-    name: "Jason",
-    surname: "Clinton",
-    phone: "555-4567",
-    description: "His cake's not a lie.",
-  },
-  {
-    name: "Random J.",
-    surname: "Hacker",
-    phone: "555-5678",
-    description: "Very random!",
-  },
-];
+import { UserQuery } from "./__generated__";
 
-type Contact = typeof initialData[0];
+const API_AUTH = GLib.environ_getenv(GLib.get_environ(), "API_AUTH");
 
-const columns: Array<GtkTreeViewColumn<keyof Contact>> = [
+const app = new Gtk.Application();
+
+const client = new ApolloClient({
+  uri: "https://api.staging.brexapps.com/v1/graphql",
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: "https://api.staging.brexapps.com/v1/graphql",
+    headers: {
+      Authorization: `Basic ${API_AUTH}`,
+    },
+  }),
+});
+
+type Transaction = {
+  name: string;
+  category: string;
+  amount: number;
+};
+
+const columns: Array<GtkTreeViewColumn<keyof Transaction>> = [
   {
     type: GObject.TYPE_STRING,
-    title: "Fist Name",
+    title: "Merchant Name",
     cellRenderer: new Gtk.CellRendererText({}),
     expand: true,
     resizable: true,
     attribute: "name" as "name",
   },
   {
-    type: String,
-    title: "Last Name",
+    type: GObject.TYPE_STRING,
+    title: "Category",
     cellRenderer: new Gtk.CellRendererText({}),
     expand: true,
     resizable: true,
-    attribute: "surname" as "surname",
+    attribute: "category" as "category",
   },
   {
-    type: String,
-    title: "Phone Number",
+    type: GObject.TYPE_STRING,
+    title: "Amount",
     cellRenderer: new Gtk.CellRendererText({}),
     expand: true,
     resizable: true,
-    attribute: "phone" as "phone",
+    attribute: "amount" as "amount",
   },
 ];
 
 interface NewContactWindowProps {
-  onSave?: (contact: Contact) => void;
+  onSave?: (contact: Transaction) => void;
   onClose?: () => void;
 }
 
-const NewContactWindow: FunctionComponent<NewContactWindowProps> = ({
-  onSave,
-  onClose,
-}) => {
-  const [draftEntry, setDraftEntry] = useState<Contact>({
-    phone: "",
-    name: "",
-    surname: "",
-    description: "",
-  });
-  const handleSave = useCallback(() => {
-    if (onSave) {
-      onSave(draftEntry);
+const query = gql`
+  query User {
+    user {
+      id
+      firstName
+      lastName
     }
-  }, [draftEntry, onSave]);
-  return (
-    <GtkWindow
-      title="Add new"
-      width_request={250}
-      height_request={250}
-      onDestroy={onClose}
-    >
-      <GtkBox
-        orientation={Gtk.Orientation.VERTICAL}
-        expand
-        spacing={8}
-        margin={8}
-      >
-        <GtkLabel label="Name" hexpand />
-        <GtkEntry
-          hexpand
-          onChanged={useCallback(
-            (entry) => {
-              setDraftEntry({
-                ...draftEntry,
-                name: entry.text,
-              });
-            },
-            [draftEntry]
-          )}
-        />
-        <GtkLabel label="Surname" hexpand />
-        <GtkEntry
-          hexpand
-          onChanged={useCallback(
-            (entry) =>
-              setDraftEntry({
-                ...draftEntry,
-                surname: entry.text,
-              }),
-            [draftEntry]
-          )}
-        />
-        <GtkLabel label="Phone" hexpand />
-        <GtkEntry
-          hexpand
-          onChanged={useCallback(
-            (entry) =>
-              setDraftEntry({
-                ...draftEntry,
-                phone: entry.text,
-              }),
-            [draftEntry]
-          )}
-        />
-        <GtkButton label="Save" onClicked={handleSave} />
-      </GtkBox>
-    </GtkWindow>
-  );
-};
+    transactions(last: 100) {
+      edges {
+        node {
+          id
+          pendingAmount
+          clearedAmount
+          purchaseTime
+          merchant {
+            name
+            merchantCategory {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 const App = () => {
-  const [cursor, setIndex] = useState([2] as number[]);
-  const [data, setData] = useState(initialData);
-  const [isDrafting, setDrafting] = useState(false as boolean);
-
-  const handleSelectionChange = useCallback((sel: Gtk.TreeSelection) => {
-    const [isSelected, model, iter] = sel.get_selected();
-
-    if (isSelected && model && iter) {
-      const cur = model.get_path(iter).get_indices();
-      setIndex(cur);
-    }
-  }, []);
-
-  const handleSave = useCallback(
-    (draftEntry: Contact) => {
-      console.log("saving draft: ", JSON.stringify(draftEntry));
-      setData([...data, draftEntry]);
-      setDrafting(true);
-    },
-    [data]
-  );
-
-  const handleAddNew = useCallback(() => {
-    setDrafting(true);
-  }, []);
+  const { data, loading, error } = useQuery<UserQuery>(query, {
+    client,
+    fetchPolicy: "network-only",
+    errorPolicy: "all",
+  });
 
   return (
     <>
-      {isDrafting && (
-        <NewContactWindow
-          onSave={handleSave}
-          onClose={() => setDrafting(false)}
-        />
-      )}
-      <GtkWindow width_request={550} height_request={450}>
+      <GtkWindow
+        width_request={550}
+        height_request={450}
+        onDestroy={() => app.quit()}
+        titlebar={
+          <GtkHeaderBar title="Brex Desktop" show_close_button></GtkHeaderBar>
+        }
+      >
         <GtkBox spacing={8} orientation={Gtk.Orientation.VERTICAL} margin={8}>
-          <GtkBox orientation={Gtk.Orientation.HORIZONTAL} spacing={8}>
-            <GtkLabel label={data[cursor[0]].name} hexpand />
-            <GtkButton label="Add new" onClicked={handleAddNew} />
-          </GtkBox>
-          <GtkTreeView
-            expand
-            data={data}
-            columns={columns}
-            onSelectionChanged={handleSelectionChange}
-          />
+          {!loading && !!error && <GtkLabel title="Error" hexpand />}
+          {!data && !error && (
+            <GtkSpinner
+              width_request={64}
+              height_request={64}
+              active={true}
+              vexpand
+            />
+          )}
+          {data?.transactions?.edges && !error && (
+            <GtkTreeView
+              data={data.transactions?.edges?.map((node) => ({
+                name: node?.node?.merchant?.name,
+                amount: node?.node?.clearedAmount ?? node?.node?.pendingAmount,
+                category: node?.node?.merchant?.merchantCategory?.name,
+              }))}
+              columns={columns}
+            />
+          )}
         </GtkBox>
       </GtkWindow>
     </>
@@ -216,9 +153,7 @@ const App = () => {
 
 Gtk.init(null);
 
-const app = new Gtk.Application();
-
-app.connect("startup", () => {
+app.connect("activate", () => {
   render(<App />, app);
   console.log("rendered");
 });

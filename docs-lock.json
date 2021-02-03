@@ -198,6 +198,14 @@
         "slug": "rsvg20"
     },
     {
+        "name": "Soup",
+        "api_version": "2.4",
+        "c_prefix": "soup,libsoup",
+        "path": "/usr/local/share/gir-1.0/Soup-2.4.gir",
+        "id": "Soup-2.4.gir",
+        "slug": "soup24"
+    },
+    {
         "name": "Vulkan",
         "api_version": "1.0",
         "c_prefix": "vk",
