@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React from "react";
 
 import {
   ApolloClient,
@@ -76,11 +71,6 @@ const columns: Array<GtkTreeViewColumn<keyof Transaction>> = [
     attribute: "amount" as "amount",
   },
 ];
-
-interface NewContactWindowProps {
-  onSave?: (contact: Transaction) => void;
-  onClose?: () => void;
-}
 
 const query = gql`
   query User {

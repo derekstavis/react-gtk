@@ -28,8 +28,8 @@ class Response {
     }
     return new Promise<Soup.Message>((resolve) => {
       this.session.queue_message(this.message, (_, message) => {
-        console.log("request", message.request_body.data);
-        console.log("response", message.response_body.data);
+        // console.log("request", message.request_body.data);
+        // console.log("response", message.response_body.data);
         this.headers = message.response_headers;
 
         this.url = message.get_uri().to_string(false);
@@ -83,14 +83,14 @@ export const fetch = (uri: string, options: FetchOptions = {}) => {
     });
 
     if (options.body) {
-      console.log("body", options.body);
-      console.log("body type", typeof options.body);
+      // console.log("body", options.body);
+      // console.log("body type", typeof options.body);
       message.request_body.append(options.body);
     }
 
     if (options.headers) {
       for (const [key, value] of Object.entries(options.headers)) {
-        console.log("header %s = %s", key, value);
+        // console.log("header %s = %s", key, value);
         message.request_headers.append(key, value);
       }
     }

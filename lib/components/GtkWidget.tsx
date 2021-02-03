@@ -35,7 +35,6 @@ export class _GtkWidgetHost<
   }
 
   constructor(props: PublicProps) {
-    console.log({ props });
     const instance = new this.gtkWidgetClass();
     this.instance = instance;
     this.updateProps(props, Object.keys(props) as Array<keyof PublicProps>, []);
@@ -64,22 +63,22 @@ export class _GtkWidgetHost<
               if (callback) callback(...args);
             };
             const sourceId = this.instance.connect(signalName, handler);
-            console.log(
-              "connecting signalName: %s, sourceId: %d",
-              signalName,
-              sourceId
-            );
+            // console.log(
+            //   "connecting signalName: %s, sourceId: %d",
+            //   signalName,
+            //   sourceId
+            // );
             this.signalSource.set(signalName, sourceId);
           }
           this.signalCallback.set(signalName, value);
         }
         if (unset.includes(key as keyof PublicProps)) {
           const sourceId = this.signalSource.get(signalName);
-          console.log(
-            "disconnecting signalName: %s, sourceId: %d",
-            signalName,
-            sourceId
-          );
+          // console.log(
+          //   "disconnecting signalName: %s, sourceId: %d",
+          //   signalName,
+          //   sourceId
+          // );
           if (sourceId) this.instance.disconnect(sourceId);
           this.signalCallback.delete(signalName);
         }
