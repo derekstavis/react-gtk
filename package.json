@@ -10,6 +10,7 @@
     "pinstall": "yarn types:generate",
     "prestart": "webpack",
     "start": "gjs dist/index.js",
+    "component:generate": "zsh -c 'sed -e s/Spinner/$1/g\\;s/spinner/$1:l/g lib/components/GtkSpinner.tsx > lib/components/Gtk$1.tsx' -- ",
     "types:generate:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {

@@ -20,6 +20,7 @@ module.exports = {
     "bare-treeview": "./bare-examples/treeview.ts",
     "react-treeview": "./examples/treeview/index.tsx",
     "react-demo": "./examples/demo/index.tsx",
+    "react-brex": "./examples/brex/index.tsx",
     "react-window": "./examples/window/index.tsx",
   },
   target: "node",
