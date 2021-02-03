@@ -1,18 +1,10 @@
 import "./intrinsics";
 
 import { _GtkActionBarHost } from "./GtkActionBar";
-import { _GtkAdjustmentHost } from "./GtkAdjustment";
 import { _GtkAppChooserButtonHost } from "./GtkAppChooserButton";
 import { _GtkBinHost } from "./GtkBin";
 import { _GtkBoxHost } from "./GtkBox";
 import { _GtkButtonHost } from "./GtkButton";
-import { _GtkCellRendererAccelHost } from "./GtkCellRendererAccel";
-import { _GtkCellRendererComboHost } from "./GtkCellRendererCombo";
-import { _GtkCellRendererPixbufHost } from "./GtkCellRendererPixbuf";
-import { _GtkCellRendererProgressHost } from "./GtkCellRendererProgress";
-import { _GtkCellRendererSpinHost } from "./GtkCellRendererSpin";
-import { _GtkCellRendererSpinnerHost } from "./GtkCellRendererSpinner";
-import { _GtkCellRendererToggleHost } from "./GtkCellRendererToggle";
 import { _GtkCheckButtonHost } from "./GtkCheckButton";
 import { _GtkColorButtonHost } from "./GtkColorButton";
 import { _GtkComboBoxHost } from "./GtkComboBox";
@@ -76,18 +68,10 @@ import { _GtkWidgetHost } from "./GtkWidget";
 import { _GtkWindowHost } from "./GtkWindow";
 
 export { default as GtkActionBar } from "./GtkActionBar";
-export { default as GtkAdjustment } from "./GtkAdjustment";
 export { default as GtkAppChooserButton } from "./GtkAppChooserButton";
 export { default as GtkBin } from "./GtkBin";
 export { default as GtkBox } from "./GtkBox";
 export { default as GtkButton } from "./GtkButton";
-export { default as GtkCellRendererAccel } from "./GtkCellRendererAccel";
-export { default as GtkCellRendererCombo } from "./GtkCellRendererCombo";
-export { default as GtkCellRendererPixbuf } from "./GtkCellRendererPixbuf";
-export { default as GtkCellRendererProgress } from "./GtkCellRendererProgress";
-export { default as GtkCellRendererSpin } from "./GtkCellRendererSpin";
-export { default as GtkCellRendererSpinner } from "./GtkCellRendererSpinner";
-export { default as GtkCellRendererToggle } from "./GtkCellRendererToggle";
 export { default as GtkCheckButton } from "./GtkCheckButton";
 export { default as GtkColorButton } from "./GtkColorButton";
 export { default as GtkComboBox } from "./GtkComboBox";
@@ -151,18 +135,10 @@ export { default as GtkWindow } from "./GtkWindow";
 
 export const _GtkHosts = {
   "gtk-actionbar": _GtkActionBarHost,
-  "gtk-adjustment": _GtkAdjustmentHost,
   "gtk-appchooserbutton": _GtkAppChooserButtonHost,
   "gtk-bin": _GtkBinHost,
   "gtk-box": _GtkBoxHost,
   "gtk-button": _GtkButtonHost,
-  "gtk-cellrendereraccel": _GtkCellRendererAccelHost,
-  "gtk-cellrenderercombo": _GtkCellRendererComboHost,
-  "gtk-cellrendererpixbuf": _GtkCellRendererPixbufHost,
-  "gtk-cellrendererprogress": _GtkCellRendererProgressHost,
-  "gtk-cellrendererspin": _GtkCellRendererSpinHost,
-  "gtk-cellrendererspinner": _GtkCellRendererSpinnerHost,
-  "gtk-cellrenderertoggle": _GtkCellRendererToggleHost,
   "gtk-checkbutton": _GtkCheckButtonHost,
   "gtk-colorbutton": _GtkColorButtonHost,
   "gtk-combobox": _GtkComboBoxHost,
